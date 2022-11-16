@@ -1,10 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>React App</title>
+    <meta charset="utf-8" />
+    <link rel="text/stylesheet" href="../src/App.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <title>지도 만들기</title>
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=x29p56y2rl"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
   </head>
   <body>
-    <div id="root"></div>
+
+    <div id="wrap">
+      <div id="root"></div>
+      <div class="buttons">
+        <input id="street" type="button" value="거리뷰" class="control-btn">
+      </div>
+    </div>
   </body>
 </html>
