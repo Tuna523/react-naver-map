@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import NaverMap from './components/NaverMap';
 import BusComp from './components/BusComp';

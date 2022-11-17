@@ -1,35 +1,38 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import BusPositionMarker from "./BusPositionMarker";
+import BusRoute from "./BusRoute";
 import BusRouteMarker from "./BusRouteMarker";
 
-export const serviceKey = 'DyV%2Ft402FreKPw4bzIbXIGjVUngF6aP09Isf3pEI2hpAKGXUsi6vhBmtmsnmViFq3rcn2plpA2%2FUPe6kTNCniw%3D%3D';
+export const serviceKey = 'DyV%2Ft402FreKPw4bzIbXIGjVUngF6aP09Isf3pEI2hpAKGXUsi6vhBmtmsnmViFq3rcn2plpA2%2FUPe6kTNCniw%3D%3D'
 export var parseString = require('xml2js').parseString;
 
 const BusComp:React.FC<{
     copyMap: any
 }> = ({copyMap}) => {
-    var markerList:any = [];
+    // var markerList:any = [];
+    const [markerList, setMarkerList] = useState<any>([]);
     var busMarkerList:any = [];
     const [busNumber, setBusNumber] = useState('');
     const [first, setFirst] = useState(false);
     const [routeId, setRouteId] = useState('');
-    const [routeList, setRouteList] = useState([]);
+    // const [routeList, setRouteList] = useState([]);
     const [positionList, setPositionList] = useState<any>([]);
+    console.log(markerList)
     console.log(busNumber);
     // console.log(routeList)
     // console.log(positionList)
     const SubmitHandler = useCallback(() => {
         var inputValue = (document.getElementById('inputBusNumber') as HTMLInputElement).value;
         setBusNumber(inputValue);
-    }, [routeList])
+    }, [removeRouteHandler()])
 
     function removeRouteHandler() {
         for(let i=0, ii=markerList.length; i<ii; i++){
             markerList[i].setMap(null);
             if(i+1 == ii) {
                 markerList.length = 0;
-                setRouteList([]);
+                // setRouteList([]);
             }
         }
     }
@@ -42,14 +45,17 @@ const BusComp:React.FC<{
             }
         }
     }
+    // function routeListhandler(value: any) {
+    //     setRouteList(value)
+    // }
+
+    
 
     useEffect(() => {
         if (first != true) {
-            setFirst(true);;
-            console.log(first);
+            setFirst(true);
         }
-    }, []);
-
+    }, [])
     function routeIdHandler() {
         if (first == true) {
             axios.get(`http://ws.bus.go.kr/api/rest/busRouteInfo/getBusRouteList?serviceKey=${serviceKey}&strSrch=${busNumber}`)
@@ -71,28 +77,10 @@ const BusComp:React.FC<{
         }
     }
 
-    useEffect(() => {
-        if( first == true ) {
-            // axios.get(`http://ws.bus.go.kr/api/rest/busRouteInfo/getRoutePath?serviceKey=${serviceKey}&busRouteId=100100278`)
-            axios.get(`http://ws.bus.go.kr/api/rest/busRouteInfo/getRoutePath?serviceKey=${serviceKey}&busRouteId=${routeId}`)
-            .then((response)=> {
-                parseString(response.data, (err:any, result: any) => {
-                    if(err) {
-                        console.log('error');
-                    } else {
-                        null
-                    }
-                    setRouteList(result.ServiceResult.msgBody[0].itemList);
-                })
-            })
-        }
-    }, [routeId])
+
     
     useEffect(() => {
-        if (first != true) {
-            setFirst(true)
-        }
-        else {
+        if (first == true)
         axios.get(`http://ws.bus.go.kr/api/rest/buspos/getBusPosByRtid?serviceKey=${serviceKey}&busRouteId=${routeId}`)
         .then(response => {
             parseString(response.data, (err:any, result:any) => {
@@ -100,20 +88,20 @@ const BusComp:React.FC<{
                 console.log('error');
             } else {
                 for(let i =0, ii=result.ServiceResult.msgBody[0].itemList.length; i<ii; i++){
-                    positionList.push(result.ServiceResult.msgBody[0].itemList[i]);
+                    positionList.push(result.ServiceResult.msgBody[0].itemList[i])
                 }
                 // console.log(result.ServiceResult.msgBody[0].itemList)
-                console.log(result.ServiceResult.msgBody[0].itemList.length);
+                console.log(result.ServiceResult.msgBody[0].itemList.length)
             }
             })
         })
-    }
+    
     positionList.length = 0;
     }, [routeId]);
 
     return (
         <>
-        {
+        {/* {
             routeList.map((route:any, index: number) => {
                 if(route.gpsX !== undefined) {
                     return (
@@ -125,7 +113,7 @@ const BusComp:React.FC<{
                     null
                 }
             })
-        }
+        } */}
         {
             positionList.map((position: any, index: number) => {
                 if(position.gpsX !== undefined) {
@@ -139,6 +127,7 @@ const BusComp:React.FC<{
                 }
             })
         }
+                <BusRoute first={first} routeId={routeId} map={copyMap} markerList={markerList}/>
             <div style={{textAlign: "center"}}>
                 <input id="inputBusNumber"/>
                 <button onClick={(e)=> {routeIdHandler(); removeRouteHandler(); removePositionHandler(); SubmitHandler();}}>submit</button>
@@ -148,4 +137,4 @@ const BusComp:React.FC<{
     )
 }
 
-export default BusComp;
+export default BusComp

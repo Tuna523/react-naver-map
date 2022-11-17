@@ -1,0 +1,53 @@
+import React from "react";
+// import axios from "axios";
+// import React, { useEffect, useState } from "react";
+// import { parseString, serviceKey } from "./BusComp";
+// import smallRedCircle from '../images/redCircle4.png';
+
+// const BusRoute:React.FC<{
+//     first: boolean
+//     routeId: string
+//     map: any
+//     markerList: any[]
+// }> = ({first,routeId, map, markerList}) => {
+//     const [routeList, setRouteList] = useState([]);
+//     console.log(routeList);
+
+//     useEffect(() => {
+//         if( first == true ) {
+//             // axios.get(`http://ws.bus.go.kr/api/rest/busRouteInfo/getRoutePath?serviceKey=${serviceKey}&busRouteId=100100278`)
+//             axios.get(`http://ws.bus.go.kr/api/rest/busRouteInfo/getRoutePath?serviceKey=${serviceKey}&busRouteId=${routeId}`)
+//             .then((response)=> {
+//                 parseString(response.data, (err:any, result: any) => {
+//                     if(err) {
+//                         console.log('error');
+//                     } else {
+//                         null
+//                     }
+//                     console.log(result);
+//                     setRouteList(result.ServiceResult.msgBody[0].itemList);
+//                 })
+//             })
+//         }
+//     }, [routeId])
+
+//     routeList.map((route:any, index: number) => {
+//         if(route.gpsX !== undefined){
+//         var marker = new naver.maps.Marker({
+//             position: new naver.maps.LatLng(route.gpsX[0], route.gpsY[0]),
+//             map: map,
+//             icon: {
+//                 url: smallRedCircle
+//             }
+//         });
+//             markerList.push(marker);
+//         }
+//     })
+//     return(
+//         <>
+//         {}
+//         </>
+//     )
+// }
+
+// export default BusRoute;

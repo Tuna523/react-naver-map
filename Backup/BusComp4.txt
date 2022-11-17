@@ -3,8 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import BusPositionMarker from "./BusPositionMarker";
 import BusRouteMarker from "./BusRouteMarker";
 
-export const serviceKey = 'DyV%2Ft402FreKPw4bzIbXIGjVUngF6aP09Isf3pEI2hpAKGXUsi6vhBmtmsnmViFq3rcn2plpA2%2FUPe6kTNCniw%3D%3D';
-export var parseString = require('xml2js').parseString;
+export const serviceKey = 'DyV%2Ft402FreKPw4bzIbXIGjVUngF6aP09Isf3pEI2hpAKGXUsi6vhBmtmsnmViFq3rcn2plpA2%2FUPe6kTNCniw%3D%3D'
 
 const BusComp:React.FC<{
     copyMap: any
@@ -42,14 +41,21 @@ const BusComp:React.FC<{
             }
         }
     }
+    // setInterval(function() {
+    //     console.log('I am working');
+    //     removePositionHandler();
+    //     console.log(busMarkerList);
+    //     console.log(busMarkerList.length);
+    // }, 6000)
 
+    
+    var parseString = require('xml2js').parseString;
     useEffect(() => {
         if (first != true) {
-            setFirst(true);;
-            console.log(first);
+            setFirst(true);
+            console.log(first)
         }
-    }, []);
-
+    }, [])
     function routeIdHandler() {
         if (first == true) {
             axios.get(`http://ws.bus.go.kr/api/rest/busRouteInfo/getBusRouteList?serviceKey=${serviceKey}&strSrch=${busNumber}`)
@@ -100,10 +106,10 @@ const BusComp:React.FC<{
                 console.log('error');
             } else {
                 for(let i =0, ii=result.ServiceResult.msgBody[0].itemList.length; i<ii; i++){
-                    positionList.push(result.ServiceResult.msgBody[0].itemList[i]);
+                    positionList.push(result.ServiceResult.msgBody[0].itemList[i])
                 }
                 // console.log(result.ServiceResult.msgBody[0].itemList)
-                console.log(result.ServiceResult.msgBody[0].itemList.length);
+                console.log(result.ServiceResult.msgBody[0].itemList.length)
             }
             })
         })
@@ -148,4 +154,4 @@ const BusComp:React.FC<{
     )
 }
 
-export default BusComp;
+export default BusComp

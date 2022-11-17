@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Marker from "./Marker";
 import FourPolygon from "./FourPolygon";
 import $ from 'jquery';

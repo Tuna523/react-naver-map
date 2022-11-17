@@ -1,26 +1,24 @@
 import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import BusPositionMarker from "./BusPositionMarker";
 import BusRouteMarker from "./BusRouteMarker";
-
-export const serviceKey = 'DyV%2Ft402FreKPw4bzIbXIGjVUngF6aP09Isf3pEI2hpAKGXUsi6vhBmtmsnmViFq3rcn2plpA2%2FUPe6kTNCniw%3D%3D';
-export var parseString = require('xml2js').parseString;
+// import IntervalMarker from "./IntervalMarker";
 
 const BusComp:React.FC<{
     copyMap: any
 }> = ({copyMap}) => {
+    const serviceKey = 'DyV%2Ft402FreKPw4bzIbXIGjVUngF6aP09Isf3pEI2hpAKGXUsi6vhBmtmsnmViFq3rcn2plpA2%2FUPe6kTNCniw%3D%3D';
     var markerList:any = [];
     var busMarkerList:any = [];
     const [busNumber, setBusNumber] = useState('');
     const [first, setFirst] = useState(false);
-    const [routeId, setRouteId] = useState('');
+    // const [routeId, setRouteId] = useState('');
     const [routeList, setRouteList] = useState([]);
     const [positionList, setPositionList] = useState<any>([]);
-    console.log(busNumber);
-    // console.log(routeList)
-    // console.log(positionList)
+    const routeId = useRef([]);
+    
     const SubmitHandler = useCallback(() => {
-        var inputValue = (document.getElementById('inputBusNumber') as HTMLInputElement).value;
+        var inputValue = (document.getElementById('inputBusNumber') as HTMLInputElement).value
         setBusNumber(inputValue);
     }, [routeList])
 
@@ -42,17 +40,33 @@ const BusComp:React.FC<{
             }
         }
     }
+    // setInterval(function() {
+    //     console.log('I am working');
+    //     removePositionHandler();
+    //     console.log(busMarkerList);
+    //     console.log(busMarkerList.length);
+    // }, 6000)
+    
+    // const testInterval = setInterval(function() {
+    //     axios.get(`http://ws.bus.go.kr/api/rest/busRouteInfo/getRoutePath?serviceKey=${serviceKey}&busRouteId=${routeId}`)
+    //     .then((response)=> {
+    //         parseString(response.data, (err:any, result:any) => {
+    //             if(err) {
+    //                 console.log('error');
+    //             } else {
+    //                 console.log(result)
+    //             }
+    //         })
+    //     })
+    // } , 3000)
 
+    var parseString = require('xml2js').parseString;
     useEffect(() => {
         if (first != true) {
-            setFirst(true);;
-            console.log(first);
+            setFirst(true)
         }
-    }, []);
-
-    function routeIdHandler() {
-        if (first == true) {
-            axios.get(`http://ws.bus.go.kr/api/rest/busRouteInfo/getBusRouteList?serviceKey=${serviceKey}&strSrch=${busNumber}`)
+        else {
+        axios.get(`http://ws.bus.go.kr/api/rest/busRouteInfo/getBusRouteList?serviceKey=${serviceKey}&strSrch=${busNumber}`)
         .then(response => {
             parseString(response.data, (err:any, result:any) => {
             if(err) {
@@ -63,18 +77,25 @@ const BusComp:React.FC<{
 
                 }
                 else{
-                    setRouteId(result.ServiceResult.msgBody[0].itemList[0].busRouteId);
+                    // setRouteId(result.ServiceResult.msgBody[0].itemList[0].busRouteId);
+                    routeId.current = result.ServiceResult.msgBody[0].itemList[0].busRouteId;
                 }
             }
             })
         })
-        }
     }
-
+    }, [busNumber]);
+    // if ( routeId.current == null) {
+    //     null
+    // } else {
+    //     console.log(routeId.current[0]);
+    // }
     useEffect(() => {
-        if( first == true ) {
+        if( first != true ) {
+            setFirst(true);
+        } else {
             // axios.get(`http://ws.bus.go.kr/api/rest/busRouteInfo/getRoutePath?serviceKey=${serviceKey}&busRouteId=100100278`)
-            axios.get(`http://ws.bus.go.kr/api/rest/busRouteInfo/getRoutePath?serviceKey=${serviceKey}&busRouteId=${routeId}`)
+            axios.get(`http://ws.bus.go.kr/api/rest/busRouteInfo/getRoutePath?serviceKey=${serviceKey}&busRouteId=${routeId.current}`)
             .then((response)=> {
                 parseString(response.data, (err:any, result: any) => {
                     if(err) {
@@ -86,30 +107,29 @@ const BusComp:React.FC<{
                 })
             })
         }
-    }, [routeId])
+    }, [routeId.current])
     
     useEffect(() => {
         if (first != true) {
             setFirst(true)
         }
         else {
-        axios.get(`http://ws.bus.go.kr/api/rest/buspos/getBusPosByRtid?serviceKey=${serviceKey}&busRouteId=${routeId}`)
+        axios.get(`http://ws.bus.go.kr/api/rest/buspos/getBusPosByRtid?serviceKey=${serviceKey}&busRouteId=${routeId.current}`)
         .then(response => {
             parseString(response.data, (err:any, result:any) => {
             if(err) {
                 console.log('error');
             } else {
                 for(let i =0, ii=result.ServiceResult.msgBody[0].itemList.length; i<ii; i++){
-                    positionList.push(result.ServiceResult.msgBody[0].itemList[i]);
+                    positionList.push(result.ServiceResult.msgBody[0].itemList[i])
                 }
                 // console.log(result.ServiceResult.msgBody[0].itemList)
-                console.log(result.ServiceResult.msgBody[0].itemList.length);
+                console.log(result.ServiceResult.msgBody[0].itemList.length)
             }
             })
         })
     }
-    positionList.length = 0;
-    }, [routeId]);
+    }, [routeId.current]);
 
     return (
         <>
@@ -141,11 +161,12 @@ const BusComp:React.FC<{
         }
             <div style={{textAlign: "center"}}>
                 <input id="inputBusNumber"/>
-                <button onClick={(e)=> {routeIdHandler(); removeRouteHandler(); removePositionHandler(); SubmitHandler();}}>submit</button>
-                <button onClick={(e) => {removeRouteHandler(); removePositionHandler();}}>remove markers</button>
+                <button onClick={(e)=> {e.preventDefault(); removeRouteHandler(); removePositionHandler(); SubmitHandler();}}>submit</button>
+                <button onClick={(e) => {e.preventDefault(); removeRouteHandler(); removePositionHandler();}}>remove markers</button>
             </div>
+            {/* <IntervalMarker serviceKey={serviceKey} routeId={routeId}/> */}
         </>
     )
 }
 
-export default BusComp;
+export default BusComp
