@@ -23,7 +23,7 @@ const NewBusPositionMarker:React.FC<{
             busMarkerList.push(marker);
         }, [positionList]);
         
-        console.log(busMarkerList);
+        // console.log(busMarkerList);
     }, [positionList])
 
     return(
