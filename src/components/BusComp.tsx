@@ -3,12 +3,14 @@ import React, { useCallback, useEffect, useState } from "react";
 import BusPositionMarker from "./BusPositionMarker";
 import BusRouteMarker from "./BusRouteMarker";
 
-export const serviceKey = 'DyV%2Ft402FreKPw4bzIbXIGjVUngF6aP09Isf3pEI2hpAKGXUsi6vhBmtmsnmViFq3rcn2plpA2%2FUPe6kTNCniw%3D%3D';
-export var parseString = require('xml2js').parseString;
+// export const serviceKey = 'DyV%2Ft402FreKPw4bzIbXIGjVUngF6aP09Isf3pEI2hpAKGXUsi6vhBmtmsnmViFq3rcn2plpA2%2FUPe6kTNCniw%3D%3D';
+// export var parseString = require('xml2js').parseString;
 
 const BusComp:React.FC<{
     copyMap: any
 }> = ({copyMap}) => {
+    const serviceKey = 'DyV%2Ft402FreKPw4bzIbXIGjVUngF6aP09Isf3pEI2hpAKGXUsi6vhBmtmsnmViFq3rcn2plpA2%2FUPe6kTNCniw%3D%3D';
+    var parseString = require('xml2js').parseString;
     var markerList:any = [];
     var busMarkerList:any = [];
     const [busNumber, setBusNumber] = useState('');
