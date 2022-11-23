@@ -97,3 +97,35 @@
   animation: test2 2s ease none;
 
 }
+
+[class*=busType] {
+  padding: 10px;
+  border-radius: 10px;
+  color: #FFF;
+}
+
+[class*=busType] +strong {
+  margin-top: 7.5px;
+}
+
+.busType-1 {
+  background-color: #6fabd4;
+}
+.busType-2 {
+  background-color: #6ad170;
+}
+.busType-3 {
+  background-color: #386ee8;
+}
+.busType-4 {
+  background-color: #3cc345;
+}
+.busType-5 {
+  background-color: #ffbc09;
+}
+.busType-6, .busType-7 {
+  background-color: #fb5852;
+}
+.busType-10 {
+  background-color: rgb(235, 195, 109);
+}

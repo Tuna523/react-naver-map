@@ -24,6 +24,21 @@ const NewStationMarker:React.FC<{
                     url: middleBusStop
                 }
             });
+
+            var contentString = [`${station.stationNm}`].join('');
+
+            var infowindow = new naver.maps.InfoWindow({
+                content: contentString
+            });
+            
+            naver.maps.Event.addListener(marker, 'click', function(e) {
+                if (infowindow.getMap()) {
+                    infowindow.close();
+                } else {
+                    infowindow.open(map, marker);
+                }
+            });
+
             stopMarkerList.push(marker);
         });
     }, [stationList]);

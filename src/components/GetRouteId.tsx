@@ -49,6 +49,8 @@ const GetRouteId:React.FC<{
                 return '경기';
             case '9' :
                 return '폐지';
+            case '10' :
+                return '관광';
             case '0' :
                 return '공용';
             default:
@@ -89,9 +91,9 @@ const GetRouteId:React.FC<{
                         return(
                             buses.routeType[0] != 8 ?
                             <div style={{border: '1px solid black', borderRadius: '10px', margin: '10px'}} key={index} onClick={(e) => {routeIdHandler(buses.busRouteId[0]); clearInterval(interval);}} >
-                                <div style={{display: "flex", gap: '20px', justifyContent: 'center', margin: '10px'}}>
-                                    <span>{busTypeSwitch(buses.routeType[0])}</span>
-                                    <strong>{buses.busRouteNm[0]}</strong>
+                                <div style={{display: "flex", gap: '60px', justifyContent: 'center', margin: '20px'}}>
+                                    <span className={`busType-${buses.routeType[0]}`}>{busTypeSwitch(buses.routeType[0])}</span>
+                                    <strong style={{fontSize: '18px'}}>{buses.busRouteNm[0]}</strong>
                                 </div>
                                 <hr/>
                                 <div style={{margin: '10px'}} className="stationName">
