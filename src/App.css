@@ -64,10 +64,10 @@
 .showContents {
   z-index: 100000;
   width: 25%;
-  animation: test 2s ease none;
+  animation: openMenu 2s ease none;
 
 }
-@keyframes test {
+@keyframes openMenu {
   0% {
     width: 0%;
     z-index: 100000;
@@ -77,14 +77,14 @@
     z-index: 100000;
   }
 }
-@keyframes test2 {
+@keyframes closeMenu {
   0% {
     z-index: 100000;
     width: 25%;
 
   }
-  50%{
-    width: 1%;
+  99.9%{
+    width: 0.1%;
     z-index: 100000;
   }
   100%{
@@ -94,7 +94,7 @@
 }
 
 .hideContents {
-  animation: test2 2s ease none;
+  animation: closeMenu 2s ease none;
 
 }
 
