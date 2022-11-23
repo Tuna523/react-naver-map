@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import busIcon from '../images/bus.png';
+import busIcon32 from '../images/bus32.png';
 const NewBusPositionMarker:React.FC<{
     positionList: any
     map: any
@@ -17,7 +18,7 @@ const NewBusPositionMarker:React.FC<{
                 position: new naver.maps.LatLng(position.gpsY[0], position.gpsX[0]),
                 map: map,
                 icon: {
-                    url: busIcon
+                    url: busIcon32
                 },
             });
             busMarkerList.push(marker);
@@ -32,4 +33,4 @@ const NewBusPositionMarker:React.FC<{
     )
 }
 
-export default NewBusPositionMarker
+export default NewBusPositionMarker;

@@ -183,7 +183,7 @@ naver.maps.Event.addListener(marker, "click", function(e) {
     
     const mapStyle = {
         width: '100%',
-        height: '800px'
+        height: '1000px'
     }
     return (
         <>
@@ -203,6 +203,7 @@ naver.maps.Event.addListener(marker, "click", function(e) {
                 contentText={" '<div class='iw_inner'><h3>빅마켓</h3><p>Vic Market<br/></div> "}
                 />
             </>
+            <input style={{height: '20px', position: 'absolute', right: '10px', top: '0', margin: '5px'}} id="street" type="button" value="거리뷰" className="control-btn"/>
         </>
     )
 }

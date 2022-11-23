@@ -1,6 +1,10 @@
+.App{
+  display: flex;
+}
+
 #wrap .buttons {
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
   z-index: 1000;
   padding: 5px;
@@ -25,4 +29,37 @@
 .control-on {
   background-color: #2780E3;
   color: #FFF;
+}
+
+.hideContents {
+  display: none;
+}
+
+#busContents {
+  height: 999px;
+  position: absolute;
+  z-index: 100000;
+  background-color: white;
+  overflow-y: scroll;
+}
+
+.busMenuHeader {
+  background: #539bed url(./images/bus32.png) 14px center no-repeat;
+  margin: 0;
+  padding: 20px 20px 20px 60px;
+}
+
+.searcharea {
+  padding: 14px;
+  background-color: #f6f6f6;
+}
+
+.stationName {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.busMenu {
+  font-size: 12px;
 }

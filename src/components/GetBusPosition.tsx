@@ -2,13 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { parseString, serviceKey } from "./NewBusComp";
 import NewBusPositionMarker from "./NewBusPositionMarker";
-
+export var interval: any;
 const GetBusPosition:React.FC<{
     routeId: string
     map: any
 }> = ({routeId, map}) => {
-    var interval: any;
-    let toggle = false;
+
+    const [toggle, setToggle] = useState(false);
     const [mounted, setMounted] = useState(false);
     const [positionList, setPositionList] = useState<any[]>([]);
 
@@ -19,6 +19,18 @@ const GetBusPosition:React.FC<{
             busPositionHandler();
         }
     }, [routeId]);
+    
+    useEffect(() => {
+        if(toggle){
+            interval = setInterval(busPositionHandler, 10000);
+            console.log('setted');
+            setToggle(true);
+        } else {
+            console.log('no toggle no running');
+            null;
+        }
+    }, [routeId]);
+
     function busPositionHandler() {
         axios.get(`http://ws.bus.go.kr/api/rest/buspos/getBusPosByRtid?serviceKey=${serviceKey}&busRouteId=${routeId}`)
         .then(response => {
@@ -26,7 +38,10 @@ const GetBusPosition:React.FC<{
             if(err) {
                 console.log('error');
             } else {
-                setPositionList(result.ServiceResult.msgBody[0].itemList)
+                if(result.ServiceResult.msgBody[0] == ''){
+                } else {
+                    setPositionList(result.ServiceResult.msgBody[0].itemList);
+                }
                 // for(let i =0, ii=result.ServiceResult.msgBody[0].itemList.length; i<ii; i++){
                 //     positionList.push(result.ServiceResult.msgBody[0].itemList[i]);
                 // }
@@ -42,19 +57,29 @@ const GetBusPosition:React.FC<{
         if(toggle == true) {
             clearInterval(interval);
             console.log('cleared')
-            toggle = false;
+            setToggle(false);
         } else {
             interval = setInterval(busPositionHandler, 10000);
             console.log('setted');
-            toggle = true;
+            setToggle(true);
         }
     } else { null }
     }
 
+    function liveBusHandler() {
+        if(routeId !== ''){
+            busPositionHandler();
+        } else {
+            null
+        }
+    }
     return (
         <>
             <NewBusPositionMarker positionList={positionList} map={map}/>
-            <button onClick={(e)=> { intervalHandler();}}>실시간 버스</button>
+            <div className="buttons">
+                
+                <button className={`control-btn ${toggle ? 'control-on' : ''}`} onClick={(e)=> {liveBusHandler(); intervalHandler();}}>실시간 버스</button>
+            </div>
         </>
     )
 }

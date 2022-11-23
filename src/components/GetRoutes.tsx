@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { parseString, serviceKey } from "./NewBusComp";
 import NewRouteMarker from "./NewRouteMarker";
+import NewRoutePolyline from "./NewRoutePolyline";
 
 const GetRoutes:React.FC<{
     routeId: string
@@ -26,15 +27,20 @@ const GetRoutes:React.FC<{
                 if(err) {
                     console.log('error');
                 } else {
-                    setRouteList(result.ServiceResult.msgBody[0].itemList);
+                    if(result.ServiceResult.msgBody[0] == '') {
+                        null
+                    } else {
+                        setRouteList(result.ServiceResult.msgBody[0].itemList);
+                    }
                 }
             })
         })
     };
 
     return(
-        <NewRouteMarker routeList={routeList} map={map} />
+        // <NewRouteMarker routeList={routeList} map={map} />
+        <NewRoutePolyline routeList={routeList} map={map}/>
     )
 }
 
-export default GetRoutes
+export default GetRoutes;
