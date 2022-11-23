@@ -76,7 +76,7 @@ const GetRouteId:React.FC<{
         })
         }
     return(
-        <div className="busMenu" style={{textAlign: 'center', height:'40px'}}>
+        <div className="busMenu" style={{textAlign: 'center'}}>
             <div className="searcharea" style={{}}>
                 <form>
                     <input style={{border: 'none', padding: '10px', width: '50%'}} id="inputBusNumber"/>

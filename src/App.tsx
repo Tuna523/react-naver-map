@@ -14,7 +14,9 @@ function App() {
     var contents = $('#busContents');
     if(contents.hasClass('hideContents')){
         contents.removeClass('hideContents');
+        contents.addClass('showContents');
     } else {
+        contents.removeClass('showContents')
         contents.addClass('hideContents');
     }
 }

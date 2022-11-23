@@ -19,8 +19,8 @@ const NewBusComp:React.FC<{
 
     return (
         <>
-            <div id="busContents" style={{border:'0.5px solid gray', width: '25%'}} className="hideContents">
-                <h2 className="busMenuHeader" style={{display: 'flex', gap: '10px'}}>버스정보 조회</h2>
+            <div id="busContents" className="hideContents">
+                <h2 className="busMenuHeader" >버스정보 조회</h2>
                 <GetRouteId routeIdHandler={routeIdHandler}/>
             </div>
                 <GetBusPosition routeId={routeId} map={copyMap}/>
